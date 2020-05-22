@@ -1,9 +1,8 @@
 ---
 layout: post
 title: Manual Dependency Injection in Play 2 Scala Applications
+author: Tomáš Milata
 ---
-
-# Manual Dependency Injection in Play 2 Scala Applications
 
 > Maybe you don’t need Guice.
 
