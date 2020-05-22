@@ -4,13 +4,9 @@ title: tomas.milata.github.io
 ---
 
 <div class="posts">
-  <ul>
-    {% for post in site.posts %}
-    <li>
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      <span class="post-date"> {{ post.date | date_to_string }} </span>
-      <p>{{ post.excerpt }} ... <a href="{{ post.url }}">Read on.</a></p>
-    </li>
-    {% endfor %}
-  </ul>
+  {% for post in site.posts %}
+  <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+  <span class="post-date"> {{ post.date | date_to_string }} </span>
+  <p>{{ post.excerpt }} ... <a href="{{ post.url }}">Read on.</a></p>
+  {% endfor %}
 </div>
