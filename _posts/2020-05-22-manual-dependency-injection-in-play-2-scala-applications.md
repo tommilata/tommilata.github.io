@@ -1,3 +1,8 @@
+---
+layout: post
+title: Manual Dependency Injection in Play 2 Scala Applications
+---
+
 # Manual Dependency Injection in Play 2 Scala Applications
 
 > Maybe you don’t need Guice.
@@ -7,6 +12,7 @@ Using [Guice](https://github.com/google/guice) to wire application objects toget
 Our [Faculty Platform](https://faculty.ai/products-services/platform/) consists of many backend microservices written in Scala and Play. We do not need any complicated lifecycle. They are mostly stateless. The app usually loads its configration once at startup, creates one instance for each business class (controllers, services, repositories, ...) and wires them together. And these objects exist until the app is shut down.
 
 ## Pros & Cons
+
 - 
 | +                            | -                |
 | ---------------------------- | ---------------- |
@@ -16,6 +22,7 @@ Our [Faculty Platform](https://faculty.ai/products-services/platform/) consists 
 
 
 ## Structure
+
 - conf
 - Loader
 - Components
@@ -24,6 +31,7 @@ Our [Faculty Platform](https://faculty.ai/products-services/platform/) consists 
 - Configuration
 - Controllers
 - Router 
+- 
 ## Example
 
 
