@@ -1,5 +1,6 @@
 ---
 title: Manual Dependency Injection in Play 2 Scala Applications
+tags: [dependency injection, scala, play]
 ---
 
 Using [Guice](https://github.com/google/guice) to wire application objects together is a default choice in [Play framework](https://www.playframework.com/). Runtime dependency injection frameworks are widely used in Java server world. They can save developers a lot of work by automatically constructing object dependency graphs and managing lifecycle of objects. This is particularly useful in large, enterprise, applications and made a lot of sense for big monolithic apps. Unsurprisingly, Play adopts this approach too. Although Guice is relatively lightweight compared to Java EE CDI or Spring, I would argue in many Play 2 applications it is better not to use any DI framework at all.
