@@ -6,3 +6,4 @@ defaults:
     values:
       layout: "post"
       author: Tomáš Milata
+theme: jekyll-theme-slate
