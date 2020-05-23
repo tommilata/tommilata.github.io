@@ -1,4 +1,3 @@
-remote_theme: johno/pixyll
 defaults:
   - scope:
       path: ""
