@@ -1,5 +1,5 @@
 ---
-title: Manual Dependency Injection in Play 2 Scala Applications
+title: '[WIP] Manual Dependency Injection in Play 2 Scala Applications'
 tags: [dependency injection, scala, play]
 ---
 
