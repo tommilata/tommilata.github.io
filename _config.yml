@@ -2,8 +2,8 @@ remote_theme: thelehhman/texture
 texture:
   title: Tomáš Milata
   tagline: Thoughts on software engineering and a personal blog.
-
   social_links:
     twitter: tomas_milata
     github:  tomas-milata
     linkedIn: in/tomáš-milata-56715240/ # format: locale/username
+  style: black
