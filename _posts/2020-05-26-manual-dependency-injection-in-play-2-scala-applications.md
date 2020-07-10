@@ -3,13 +3,13 @@ title: 'Manual Dependency Injection in Play 2 Scala Applications'
 tags: [dependency injection, scala, play]
 ---
 
-Using [Guice](https://github.com/google/guice) to wire application objects together is a default choice in [Play framework](https://www.playframework.com/). Runtime dependency injection frameworks are widely used in Java server world. They can save developers a lot of work by automatically constructing object dependency graphs and managing lifecycle of objects. This is particularly useful in large, enterprise, applications and makes a lot of sense for big monolithic apps. Unsurprisingly, Play adopts this approach too. Although Guice is relatively lightweight compared to Java EE CDI or Spring, I would argue in many Play 2 applications, it is better not to use any DI framework at all.
+Using [Guice](https://github.com/google/guice) to wire application objects together is a default choice in [Play framework](https://www.playframework.com/). Runtime dependency injection frameworks are widely used in Java server world. They can save developers a lot of work by automatically constructing object dependency graphs and managing lifecycle of objects. This is particularly useful in large, enterprise, applications and makes a lot of sense for big monolithic apps. Play, being popular among both Java and Scala developers, adopts this approach too. Although Guice is relatively lightweight compared to Java EE CDI or Spring, I would argue in many Play 2 applications, it is better not to use any DI framework at all.
 
-Our [Faculty Platform](https://faculty.ai/products-services/platform/) consists of many backend microservices written in Scala and Play. They are mostly stateless.  We do not need any complicated lifecycle. The app usually loads its configration once at startup, creates one instance for each business class (controllers, services, repositories, ...) and wires them together. And these objects exist until the app is shut down.
+Our [Faculty platform](https://faculty.ai/products-services/platform/) consists of many backend microservices written in Scala and Play 2. They are mostly stateless. We do not need any complicated lifecycle. The app usually loads its configuration once at startup, creates one instance for each business class (controllers, services, repositories, ...) and wires them together. And these objects exist until the app is shut down.
 
 ## Difficulties with Guice
 
-I often found myself in a situation where I had just finished implementing a new class, all unit tests were passing, deployed my changes to a dev environment, only to find my app did not start because of a single `@ImplementedBy` annotation missing. I could have written integration tests to check correct wiring, but the point is we do not need to wait for runtime. We can let the compiler do it. And fail faster.
+I often found myself in a situation when I had just finished implementing a new class, all unit tests were passing, deployed my changes to a dev environment, only to find my app did not start because of a single `@ImplementedBy` annotation missing. I could have written integration tests to check correct wiring, but the point is we do not need to wait until runtime. We can let the compiler do it. And fail faster.
 
 ### Lazy Singletons
 
@@ -77,6 +77,7 @@ class UserControllerImpl(
   override protected def defaultPageSize = configuration.get[Int]("defaultPageSize")
 }
 ```
+
 _Note: Decoupling the business logic in the `UserController` trait from loading the configuration in the `Impl` class makes it e.g. easier to unit-test the trait._
 
 Instantiation of the controller from an existing instance of the service and configuration is then as simple as
@@ -102,10 +103,6 @@ If you want to build your object tree manually in a Play 2 app, an [`Application
 - Configuration
 - Controllers
 - Router 
-
-## Example
-
-
 
 ## Pros & Cons
 
