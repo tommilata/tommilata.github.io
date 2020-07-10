@@ -15,8 +15,6 @@ I often found myself in a situation where I had just finished implementing a new
 
 Sometimes we have cloud-provider-specific implementations of the same trait. E.g. a client that talks to S3 when deployed onto AWS and to Google Cloud Storage on GCP.
 
-_TODO example StorageClient, S3Client, GcsClient ?_
-
 ```scala
 trait StorageClient {
   def listBucket: List[String]
@@ -59,11 +57,36 @@ _Note: To save you from wondering why your code works locally but breaks in prod
 
 ## Manual Injection Using Constructors
 
-### Structure
+At Faculty, we pass dependencies using plain old constructors. E.g. if a `UserController` depends on a `UserService`, we declare the controller simply as
+
+```scala
+class UserController(userService: UserService)
+```
+
+There's usually no need to have a separate `trait` and its `class` implementation. We only use it sometimes when there's a more complex instantiation logic, not directly related to the business logic. E.g. when we need to read from configuration in instantiate the class such as a default page size for pagination. In that case, we would define
+
+```scala
+trait UserController {
+  protected def defaultPageSize: Int
+}
+
+class UserControllerImpl(
+  protected override val userService: UserService,
+  configuration: Configuration
+) {
+  override protected def defaultPageSize = configuration.get[Int]("defaultPageSize")
+}
+```
+
+### Structure of a Play 2 App
+
+If you want to build your object tree manually in a Play 2 app, an [`ApplicationLoader`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/ApplicationLoader.html) is your entry point and you need to create a subclass of it. It's responsibility is to return an instance of `play.api.Application`. The easiest way to implement it is to subclass [`BuiltInComponentsFromContext`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/BuiltInComponentsFromContext.html). It is conventional for your subclass to have `Components` in its name. In your `Components`
+
 
 - conf
 - Loader
 - Components
+  - lazy
     - 
 - DB
 - Configuration
@@ -100,6 +123,8 @@ problems
 
 - Cons
   - no session scope
+  - community uses guice by default
+  - biolerplate
     - write constructors manually
         - ~ 100 lines in `ivory`, ~200 lines in `steve`
         - how to get things like `Database`, `WSClient`, `SecurityFilter` s or `ExecutionContext` from Play
