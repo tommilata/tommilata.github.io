@@ -9,11 +9,11 @@ Our [Faculty Platform](https://faculty.ai/products-services/platform/) consists 
 
 ## Difficulties with Guice
 
-I often found myself in a situation where I had just finished implementing a new class, all unit tests were passing, deployed my changes to a dev environment, only to find my app did not start because of a single `@ImplementedBy` annotation missing. I could have written integration tests to check correct wiring, but the point is we do not need to wait for runtime. We can let the compiler do it and fail faster.
+I often found myself in a situation where I had just finished implementing a new class, all unit tests were passing, deployed my changes to a dev environment, only to find my app did not start because of a single `@ImplementedBy` annotation missing. I could have written integration tests to check correct wiring, but the point is we do not need to wait for runtime. We can let the compiler do it. And fail faster.
 
 ### Lazy Singletons
 
-Sometimes we have cloud-provider-specific implementations of the same trait. E.g. a client that talks to S3 when deployed onto AWS and to Google Cloud Storage on GCP.
+In our codebase we sometimes need cloud-provider-specific implementations of the same trait. E.g. a client that talks to S3 when deployed onto AWS or to Google Cloud Storage on GCP.
 
 ```scala
 trait StorageClient {
@@ -63,7 +63,7 @@ At Faculty, we pass dependencies using plain old constructors. E.g. if a `UserCo
 class UserController(userService: UserService)
 ```
 
-There's usually no need to have a separate `trait` and its `class` implementation. We only use it sometimes when there's a more complex instantiation logic, not directly related to the business logic. E.g. when we need to read from configuration in instantiate the class such as a default page size for pagination. In that case, we would define
+There's usually no need to have a separate `trait` and its `class` implementation. We only use it sometimes when there's a more complex instantiation logic, not directly related to the business logic. E.g. when we need to read parameters from configuration to instantiate the class, such as a default page size for pagination. In that case, we would define
 
 ```scala
 trait UserController {
@@ -76,6 +76,16 @@ class UserControllerImpl(
 ) {
   override protected def defaultPageSize = configuration.get[Int]("defaultPageSize")
 }
+```
+_Note: Decoupling the business logic in the `UserController` trait from loading the configuration in the `Impl` class makes it e.g. easier to unit-test the trait._
+
+Instantiation of the controller from an existing instance of the service and configuration is then as simple as
+
+```scala
+val configuration: Configuration = ???
+val userService: UserService = ???
+
+val userController: UserController = new UserControllerImpl(userService, configuration)
 ```
 
 ### Structure of a Play 2 App
@@ -93,42 +103,23 @@ If you want to build your object tree manually in a Play 2 app, an [`Application
 - Controllers
 - Router 
 
-
 ## Example
 
 
 
 ## Pros & Cons
 
+To summarise, if you choose to go with Guice in Play 2 apps, you will benefit from many working examples online and good documentation. It's a default choice in Play 2 and an easy start. In simple scenarios, all dependencies are wired together for you by the framework almost for free. It also provides support for more complicated lifecycles, e.g. adding [shutdown hooks](https://www.playframework.com/documentation/2.8.x/ScalaDependencyInjection#Stopping/cleaning-up). However, in some scenarios it lacks flexibility, e.g. for _lazy singletons_, forcing developers to use uninitutive workarounds and inceasing code complexity unnecessarily. Als, the chance of getting runtime errors is higher due to the fact that injection does not happen at compilation time.
 
-problems
-
-- runtime failure - missing @ImplementedBy
-
-
-- runtime errors, typically missing `@ImplementedBy` — need to redeploy
-
-
-
-- Guice complexity
-- easy to follow application lifecycle, e.g.
-    - How many instances of each controller, service are created?
-- no Guice support for lazy singletons
-    - only hack with custom module
-    - spent ~2 MD figuring this out
-- less dependencies
-- simplify code - no need for separate `trait` + `Impl` in many cases
-- easy custom wiring based on e.g. `CloudProvider`
-
-
-- Cons
-  - no session scope
-  - community uses guice by default
+- without manual DI
+  - fewer examples online
   - biolerplate
     - write constructors manually
         - ~ 100 lines in `ivory`, ~200 lines in `steve`
         - how to get things like `Database`, `WSClient`, `SecurityFilter` s or `ExecutionContext` from Play
-        - breaking changes in `sherlockml-base`
-
-
-## Conclusion
+  - application lifecycle
+    - easy to follow , e.g. How many instances of each controller, service are created?
+    - no support for advanced lifecycle, e.g. no session scope
+  - less dependencies
+  - simplify code - no need for separate `trait` + `Impl` in many cases
+  - easy custom wiring based on e.g. `CloudProvider`
