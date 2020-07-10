@@ -91,18 +91,13 @@ val userController: UserController = new UserControllerImpl(userService, configu
 
 ### Structure of a Play 2 App
 
-If you want to build your object tree manually in a Play 2 app, an [`ApplicationLoader`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/ApplicationLoader.html) is your entry point and you need to create a subclass of it. It's responsibility is to return an instance of `play.api.Application`. The easiest way to implement it is to subclass [`BuiltInComponentsFromContext`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/BuiltInComponentsFromContext.html). It is conventional for your subclass to have `Components` in its name. In your `Components`
+The gist of manually builing an object tree for a Play 2 app is to subclass the [`ApplicationLoader`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/ApplicationLoader) and instantiate all your classes in there. The root of the hiearchy of dependencies is a `Router` which depends on controllers. Controllers typically depend on other business classes that are created from Play-provided building blocks like classes for database access, configuration or HTTP clients. Many of these can be obtained from [`BuiltInComponentsFromContext`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/BuiltInComponentsFromContext.html).
 
+The official Play documentation provides a nice [guide with examples](https://www.playframework.com/documentation/2.8.x/ScalaCompileTimeDependencyInjection#Application-entry-point) on this.
 
-- conf
-- Loader
-- Components
-  - lazy
-    - 
-- DB
-- Configuration
-- Controllers
-- Router 
+To see actual, runnable, code, try my [repository with an example TODO](https://github.com/tomas-milata/???).
+
+I will discuss specifics in the [next post in this series TODO](???).
 
 ## Pros & Cons
 
