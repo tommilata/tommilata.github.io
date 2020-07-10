@@ -1,5 +1,5 @@
 ---
-title: '[WIP] Manual Dependency Injection in Play 2 Scala Applications'
+title: 'Manual Dependency Injection in Play 2 Scala Applications'
 tags: [dependency injection, scala, play]
 ---
 
@@ -109,17 +109,6 @@ If you want to build your object tree manually in a Play 2 app, an [`Application
 
 ## Pros & Cons
 
-To summarise, if you choose to go with Guice in Play 2 apps, you will benefit from many working examples online and good documentation. It's a default choice in Play 2 and an easy start. In simple scenarios, all dependencies are wired together for you by the framework almost for free. It also provides support for more complicated lifecycles, e.g. adding [shutdown hooks](https://www.playframework.com/documentation/2.8.x/ScalaDependencyInjection#Stopping/cleaning-up). However, in some scenarios it lacks flexibility, e.g. for _lazy singletons_, forcing developers to use uninitutive workarounds and inceasing code complexity unnecessarily. Als, the chance of getting runtime errors is higher due to the fact that injection does not happen at compilation time.
+To summarise, if you choose to go with Guice in Play 2 apps, you will benefit from many working examples online and good documentation. It's a default choice in Play 2 and an easy start. In simple scenarios, all dependencies are wired together for you by the framework almost for free. It also provides support for more complicated lifecycles, e.g. adding [shutdown hooks](https://www.playframework.com/documentation/2.8.x/ScalaDependencyInjection#Stopping/cleaning-up). However, in some scenarios it lacks flexibility, e.g. for _lazy singletons_, forcing developers to use uninitutive workarounds and inceasing code complexity unnecessarily. Also, the chance of getting runtime errors is higher due to the fact that injection does not happen at compilation time.
 
-- without manual DI
-  - fewer examples online
-  - biolerplate
-    - write constructors manually
-        - ~ 100 lines in `ivory`, ~200 lines in `steve`
-        - how to get things like `Database`, `WSClient`, `SecurityFilter` s or `ExecutionContext` from Play
-  - application lifecycle
-    - easy to follow , e.g. How many instances of each controller, service are created?
-    - no support for advanced lifecycle, e.g. no session scope
-  - less dependencies
-  - simplify code - no need for separate `trait` + `Impl` in many cases
-  - easy custom wiring based on e.g. `CloudProvider`
+Chossing manual compile-time DI will probably lead to fewer runtime errors. Your application's lifecycle is likely to get easier to reason about. Questions like how many instances of a controller are created can be anwered simly by just looking at your code, not library code. And conditional injection can be as simple as an _if/else_ statement. There will be a little bit of extra boilerplate code to write and you will find fewer examples online, especially around resources provided by Play like database access or HTTP clients. You will lose support for advanced application lifecycle, but will get more flexibility to tweak it yourself. Fewer dependencies is always better. Overall, using manual compile-time DI has some downsides, but we a Faculty believe they are outweighed by the understandability and straightforwardness of this approach.
