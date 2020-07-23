@@ -95,9 +95,7 @@ To manually build an object tree for a Play 2 app, the gist is subclassing the [
 
 The official Play documentation provides a nice [guide with examples](https://www.playframework.com/documentation/2.8.x/ScalaCompileTimeDependencyInjection#Application-entry-point) on this.
 
-To see actual, runnable, code, try my [repository with an example TODO](https://github.com/tomas-milata/???).
-
-I will discuss specifics in the [next post in this series TODO](???).
+To see actual, runnable, code, have a look at this [repository with an example](https://github.com/tomas-milata/play-without-guice). I will discuss specifics of this example in my next post.
 
 ## Pros & Cons
 
