@@ -91,7 +91,7 @@ val userController: UserController = new UserControllerImpl(userService, configu
 
 ### Structure of a Play 2 App
 
-To manually build an object tree for a Play 2 app, the gist is subclassing the [`ApplicationLoader`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/ApplicationLoader) and instantiate all your classes in there. The root of the hierarchy of dependencies is a `Router` which depends on controllers. Controllers typically depend on other business classes that are created from Play-provided building blocks like classes for database access, configuration or HTTP clients. Many of these can be obtained from [`BuiltInComponentsFromContext`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/BuiltInComponentsFromContext.html).
+To manually build an object tree for a Play 2 app, the gist is subclassing the [`ApplicationLoader`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/ApplicationLoader) and instantiating all your classes in there. The root of the hierarchy of dependencies is a `Router` which depends on controllers. Controllers typically depend on other business classes that are created from Play-provided building blocks like classes for database access, configuration or HTTP clients. Many of these can be obtained from [`BuiltInComponentsFromContext`](https://www.playframework.com/documentation/2.8.x/api/scala/play/api/BuiltInComponentsFromContext.html).
 
 The official Play documentation provides a nice [guide with examples](https://www.playframework.com/documentation/2.8.x/ScalaCompileTimeDependencyInjection#Application-entry-point) on this.
 
