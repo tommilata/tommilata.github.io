@@ -1,3 +1,3 @@
-# tomas-milata.github.io
+# tommilata.github.io
 
-[My personal site](https://tomas-milata.github.io).
+[My personal site](https://tommilata.github.io).
