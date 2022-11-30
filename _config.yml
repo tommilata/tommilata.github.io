@@ -3,9 +3,9 @@ texture:
   title: Tomáš Milata
   tagline: Thoughts on software engineering
   social_links:
-    twitter: tomas_milata
-    github:  tomas-milata
-    linkedIn: in/tomáš-milata-56715240/ # format: locale/username
+    twitter: tommilata
+    github:  tommilata
+    linkedIn: in/tommilata/ # format: locale/username
   style: black
 show_excerpts: true
 
